@@ -2,3 +2,4 @@ build/
 standard-test-images-for-Image-Processing/
 compile_commands.json
 testproj
+.cache/
