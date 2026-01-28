@@ -1,0 +1,5 @@
+build/
+standard-test-images-for-Image-Processing/
+shaders/
+compile_commands.json
+testproj
