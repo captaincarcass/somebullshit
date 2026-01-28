@@ -1,0 +1,12 @@
+Index: 
+  StandardLibrary: true
+
+CompileFlags:
+  Add: [
+    xc++, -std=c++23, -stdlib=libc++
+    -Iinclude,
+    -Iinclude/glad,
+    -I/usr/include,
+    -I/usr/include/GLFW,
+    -I/usr/include/GL,
+  ]
