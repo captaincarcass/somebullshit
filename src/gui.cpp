@@ -422,17 +422,17 @@ bool ShaderGUI::ShaderPickerGUI::isPathUnique(std::string currentPath) {
     return true;
 }
 
-bool ShaderGUI::ShaderPickerGUI::InitShaderPickerGUI(){
+bool ShaderGUI::ShaderPickerGUI::Init(){
     auto& config = ConfigManager::GetConfig();
 
-    if (config.contains(KEY)) {
-	auto& shaders = config[KEY];
-	counter = shaders.value("counter", 0);
-	names = shaders.value("names", decltype(names){});
-	combinedPaths = shaders.value("combinedPaths", decltype(combinedPaths){});
-	vertexPaths = shaders.value("vertexPaths", decltype(vertexPaths){});
-	fragmentPaths = shaders.value("fragmentPaths", decltype(fragmentPaths){});
-    }
+    if (!config.contains(KEY)) return false;
+
+    auto& shaders = config[KEY];
+    counter = shaders.value("counter", 0);
+    names = shaders.value("names", decltype(names){});
+    combinedPaths = shaders.value("combinedPaths", decltype(combinedPaths){});
+    vertexPaths = shaders.value("vertexPaths", decltype(vertexPaths){});
+    fragmentPaths = shaders.value("fragmentPaths", decltype(fragmentPaths){});
     return true;
 }
 
@@ -447,4 +447,26 @@ void ShaderGUI::ShaderPickerGUI::SaveToConfig() {
     key["fragmentPaths"] = fragmentPaths;
 
     ConfigManager::Save();
+}
+
+const char* ShaderGUI::ShaderPickerGUI::getKey() {
+    return KEY;
+}
+
+std::unordered_map<std::string std::string>& getVertexPaths {
+
+}
+
+std::unordered_map<std::string std::string>& {
+
+}
+
+std::unordered_map<std::string std::string>& {
+
+}
+
+bool ShaderGUI::ShaderLoaderGUI::Init() {
+    auto& config = ConfigManager::GetConfig();
+
+    if(!config.contains(ShaderPickerGUI::getKey())) return false;
 }

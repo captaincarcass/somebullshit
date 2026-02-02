@@ -39,7 +39,7 @@ struct UniformInfo {
     UniformType type;
     GLint location;
 
-    //defaults i guess subject to change
+    //defaults
     float min 	{ 0.0f };
     float max 	{ 1.0f };
     float speed { 0.01f };
@@ -88,12 +88,16 @@ public:
     static void RenderGUI();
 
     inline static std::unordered_map<uint64_t, std::string> names;
+    inline static constexpr const char* getKey() const;
+    inline static std::unordered_map<std::string, std::string>& getVertexPaths;
+    inline static std::unordered_map<std::string, std::string>& getFragmentPaths;
+    inline static std::unordered_map<std::string, std::string>& getCombinedPaths;
 private:
-    inline static constexpr const char* KEY = "shaders";
     inline static std::unordered_map<std::string, std::string> vertexPaths;
     inline static std::unordered_map<std::string, std::string> fragmentPaths;
     inline static std::unordered_map<std::string, std::string> combinedPaths;
-    inline static uint64_t counter {} ;
+    inline static constexpr const char* KEY = "shaders";
+    inline static uint64_t counter {};
     static bool isPathUnique(std::string path, Type type);
     static bool isPathUnique(std::string path);
     static bool isNameUnique(std::string name);
@@ -104,7 +108,12 @@ private:
 
 class ShaderLoaderGUI {
 public:
-    void RenderGUI();
+    static void RenderGUI();
 
+
+    inline static bool hasAddedShader {};
+private:
+    static bool Init();
+    
 };
 }
