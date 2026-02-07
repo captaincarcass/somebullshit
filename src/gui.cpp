@@ -453,20 +453,65 @@ const char* ShaderGUI::ShaderPickerGUI::getKey() {
     return KEY;
 }
 
-std::unordered_map<std::string std::string>& getVertexPaths {
-
+std::unordered_map<std::string std::string>& ShaderGUI::ShaderPickerGUI::getVertexPaths() {
+    return vertexPaths;
 }
 
-std::unordered_map<std::string std::string>& {
-
+std::unordered_map<std::string std::string>& ShaderGUI::ShaderPickerGUI::getFragmentPaths() {
+    return fragmentPaths;
 }
 
-std::unordered_map<std::string std::string>& {
-
+std::unordered_map<std::string std::string>& ShaderGUI::ShaderPickerGUI::getCombinedPaths() {
+    return combinedPaths;
 }
 
 bool ShaderGUI::ShaderLoaderGUI::Init() {
     auto& config = ConfigManager::GetConfig();
+    bool isConfigEmpty = !config.contains(ShaderPickerGUI::getKey());
 
-    if(!config.contains(ShaderPickerGUI::getKey())) return false;
+    if (isConfigEmpty) {
+	const auto& tempvert = ShaderPickerGUI::getVertexPaths();
+	const auto& tempfrag = ShaderPickerGUI::getFragmentPaths();
+	const auto& tempcomb = ShaderPickerGUI::getCombinedPaths();
+
+	//early return only when theres no shaders in file and also no shaders in memory
+	if(tempvert.empty() && tempfrag.empty() && tempcomb.empty()) return false;
+
+	//whenever the config file is empty, it'll try to compile shaders from whatever paths may
+	//be stored in memory. in practice, I dont think it's actually possible for this to happen :p
+	shaders.reserve(tempvert.size() + tempcomb.size());
+
+	if (!tempvert.empty() && !tempfrag.empty()){
+	    for (const auto& [Name, Path] : tempvert) {
+		shaders.emplace_back(Path, tempfrag.at(Name));
+	    }
+	}
+	if (!tempcomb.empty()) {
+	    for (const auto& [Name, Path] : tempcomb) {
+		shaders.emplace_back(Path);
+	    }
+	}
+    } else {
+	//if the config isnt empty, reads paths from file and compiles shaders in place
+	//this is definitely slower because im technically looping over the vertex paths 
+	//and combined paths twice but whatever
+	auto& key = config[ShaderPickerGUI::getKey()];
+
+	const auto& tempvert = key["vertexPaths"];
+	const auto& tempfrag = key["fragmentPaths"];
+	const auto& tempcomb = key["combinedPaths"];
+
+	shaders.reserve(tempvert.size() + tempcomb.size());
+	if (!tempvert.empty() && !tempfrag.empty()) {
+	    for (const auto& [Name, Path] : tempvert) {
+		shaders.emplace_back(Path, tempfrag.at(Name));
+	    }
+	}
+	if (!tempcomb.empty()) {
+	    for (const auto& [Name, Path] : tempcomb) {
+		shaders.emplace_back(Path);
+	    }
+	}
+    }
+    return true;
 }

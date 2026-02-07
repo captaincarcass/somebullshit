@@ -54,6 +54,42 @@ struct ShaderGUIState {
 
 extern struct ShaderGUIState shaderGUIState;
 
+
+class ShaderPickerGUI {
+public:
+    static void RenderGUI();
+
+    inline static std::unordered_map<uint64_t, std::string> names;
+    inline static constexpr const char* getKey() const;
+    inline static std::unordered_map<std::string, std::string>& getVertexPaths() const;
+    inline static std::unordered_map<std::string, std::string>& getFragmentPaths() const;
+    inline static std::unordered_map<std::string, std::string>& getCombinedPaths() const;
+private:
+    inline static std::unordered_map<std::string, std::string> vertexPaths;
+    inline static std::unordered_map<std::string, std::string> fragmentPaths;
+    inline static std::unordered_map<std::string, std::string> combinedPaths;
+    inline static constexpr const char* KEY = "shaders";
+    inline static uint64_t counter {};
+    static bool isPathUnique(std::string path, Type type);
+    static bool isPathUnique(std::string path);
+    static bool isNameUnique(std::string name);
+    static void SaveToConfig();
+    static bool Init();
+    enum class Type { VERTEX, FRAGMENT, COMBINED };
+};
+
+class ShaderLoaderGUI {
+public:
+    static void RenderGUI();
+
+
+    inline static bool hasAddedShader {};
+private:
+    static bool Init();
+    inline static std::vector<Shader> shaders;
+    
+};
+
 class ShaderUniformGUI {
 public:
     static void Introspect(const Shader& shader. ShaderType type, const std::string& name);
@@ -83,37 +119,3 @@ private:
     static void Init();
 };
 
-class ShaderPickerGUI {
-public:
-    static void RenderGUI();
-
-    inline static std::unordered_map<uint64_t, std::string> names;
-    inline static constexpr const char* getKey() const;
-    inline static std::unordered_map<std::string, std::string>& getVertexPaths;
-    inline static std::unordered_map<std::string, std::string>& getFragmentPaths;
-    inline static std::unordered_map<std::string, std::string>& getCombinedPaths;
-private:
-    inline static std::unordered_map<std::string, std::string> vertexPaths;
-    inline static std::unordered_map<std::string, std::string> fragmentPaths;
-    inline static std::unordered_map<std::string, std::string> combinedPaths;
-    inline static constexpr const char* KEY = "shaders";
-    inline static uint64_t counter {};
-    static bool isPathUnique(std::string path, Type type);
-    static bool isPathUnique(std::string path);
-    static bool isNameUnique(std::string name);
-    static void SaveToConfig();
-    static bool Init();
-    enum class Type { VERTEX, FRAGMENT, COMBINED };
-};
-
-class ShaderLoaderGUI {
-public:
-    static void RenderGUI();
-
-
-    inline static bool hasAddedShader {};
-private:
-    static bool Init();
-    
-};
-}
