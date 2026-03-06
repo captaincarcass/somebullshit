@@ -12,8 +12,8 @@ private:
     inline static std::string configPath = "config/config.json";
 public:
     static nlohmann::json& GetConfig();
-    static bool Load(const std::string& name);
-    static bool Save(const std::string& name);
+    static bool Load();
+    static bool Save();
     static void Clear(const std::string& name);
 };
 

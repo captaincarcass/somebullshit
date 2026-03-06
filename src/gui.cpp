@@ -7,7 +7,7 @@
 #include <algorithm>
 #include <unordered_map>
 #include <glad/glad.h>
-#include <json>
+#include <nlohmann/json>
 #include <fstream>
 #include <type_traits>
 #include "shaderdef.hpp"
@@ -18,8 +18,6 @@
 #define TAU 6.2831853071
 
 using json = nlohmann::json;
-
-struct ShaderGUI::ShaderGUIState shaderGUIState = {};
 
 void ShaderGUI::ShaderUniformGUI::Introspect(const Shader& shader, 
 					     ShaderType type, 

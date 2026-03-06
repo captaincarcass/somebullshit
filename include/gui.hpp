@@ -47,7 +47,7 @@ struct UniformInfo {
 };
 
 struct ShaderGUIState {
-    inline static bool isShaderUniformGUI = true;
+    inline static bool isShaderUniformGUI = false;
     inline static bool isShaderPickerGUI = false;
     inline static bool isShaderLoaderGUI = false;
 };
